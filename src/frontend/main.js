@@ -54,7 +54,7 @@ async function verifyTurnstile(siteKey) {
       callback: async (token) => {
         localStorage.setItem('turnstile_token', token)
         try {
-          const result = await http.get('/api/config', { includeAuth: false, includeTurnstile: true })
+          const result = await http.get('/api/config', { includeAuth: false, includeTurnstile: true, autoRedirect: false })
           if (!result.error) {
             resolve(result.data && result.data.cookie_auth === true)
           } else {
