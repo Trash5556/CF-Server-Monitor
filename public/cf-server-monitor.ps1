@@ -1372,25 +1372,25 @@ function Install-Service {
 
 
     # 先停止已有的探针进程
-    Write-Host "检查并停止已有的探针进程..." -ForegroundColor Cyan
-    $existing = @()
-    try {
-        $processes = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction Stop
-        foreach ($proc in $processes) {
-            if ($proc.CommandLine -like "*cf-server-monitor*run*" -or $proc.CommandLine -like "*$scriptPath*run*") {
-                $existing += Get-Process -Id $proc.ProcessId -ErrorAction SilentlyContinue
-            }
-        }
-    } catch {
-        $existing = Get-Process powershell -ErrorAction SilentlyContinue | Where-Object {
-            $_.CommandLine -like "*cf-server-monitor*run*" -or $_.CommandLine -like "*$scriptPath*run*"
-        }
-    }
-    if ($existing) {
-        Write-Host "发现已有探针进程 (PID: $($existing.Id -join ', '))，正在停止..." -ForegroundColor Yellow
-        $existing | Stop-Process -Force -ErrorAction SilentlyContinue
-        Start-Sleep -Seconds 1
-    }
+#    Write-Host "检查并停止已有的探针进程..." -ForegroundColor Cyan
+#   $existing = @()
+#    try {
+#        $processes = Get-CimInstance Win32_Process -Filter "Name='powershell.exe'" -ErrorAction Stop
+#        foreach ($proc in $processes) {
+#            if ($proc.CommandLine -like "*cf-server-monitor*run*" -or $proc.CommandLine -like "*$scriptPath*run*") {
+#                $existing += Get-Process -Id $proc.ProcessId -ErrorAction SilentlyContinue
+#            }
+#        }
+#    } catch {
+#        $existing = Get-Process powershell -ErrorAction SilentlyContinue | Where-Object {
+#            $_.CommandLine -like "*cf-server-monitor*run*" -or $_.CommandLine -like "*$scriptPath*run*"
+#        }
+#    }
+#    if ($existing) {
+#        Write-Host "发现已有探针进程 (PID: $($existing.Id -join ', '))，正在停止..." -ForegroundColor Yellow
+#        $existing | Stop-Process -Force -ErrorAction SilentlyContinue
+#        Start-Sleep -Seconds 1
+#    }
 
     # 启动探针，传递必要的参数
     Write-Host "正在启动探针..." -ForegroundColor Yellow
